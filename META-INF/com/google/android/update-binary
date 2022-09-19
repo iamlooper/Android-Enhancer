@@ -120,6 +120,7 @@ rm_exist "$MODPATH/setup.sh"
 rm_exist "$MODPATH/LICENSE"
 rm_exist "$MODPATH/README.md"
 rm_exist "$MODPATH/changelog.md"
+rm_exist "$MODPATH/aosp_enhancer.jpg"
 rm_exist "$MODPATH/system/bin/aosp_enhancer64"
 rm_exist "$MODPATH/system/bin/aosp_enhancer32"
 
