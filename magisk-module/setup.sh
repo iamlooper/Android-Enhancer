@@ -9,13 +9,13 @@
 ############
 
 # Set this to true if you want to skip mount for your module
-SKIPMOUNT="false"
+SKIPMOUNT=false
 # Set this to true if you want to clean old files in module before injecting new module
-CLEANSERVICE="false"
+CLEANSERVICE=false
 # Set this to true if you want to load vskel after module info print. If you want to manually load it, consider using load_vksel function
-AUTOVKSEL="false"
+AUTOVKSEL=false
 # Set this to true if you want store debug logs of installation
-DEBUG="true"
+DEBUG=true
 
 ############
 # Replace List
