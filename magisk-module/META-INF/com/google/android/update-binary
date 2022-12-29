@@ -17,6 +17,34 @@ load_vksel() { source "$MODPATH/addon/Volume-Key-Selector/install.sh"; }
 
 rm_exist() { [[ -e "$1" ]] && rm -rf "$1" 2>/dev/null; }
 
+configure_native_lib() {
+  if [[ "$ARCH" == "arm64" ]]; then
+    mv -f "$MODPATH/lib/arm64-v8a/$1" "$MODPATH/lib"
+    rm -rf "$MODPATH/lib/arm64-v8a"
+    rm -rf "$MODPATH/lib/armeabi-v7a"
+    rm -rf "$MODPATH/lib/x86"
+    rm -rf "$MODPATH/lib/x86_64"
+  elif [[ "$ARCH" == "arm" ]]; then
+    mv -f "$MODPATH/lib/armeabi-v7a/$1" "$MODPATH/lib"
+    rm -rf "$MODPATH/lib/armeabi-v7a"
+    rm -rf "$MODPATH/lib/arm64-v8a"
+    rm -rf "$MODPATH/lib/x86"
+    rm -rf "$MODPATH/lib/x86_64"
+  elif [[ "$ARCH" == "x86" ]]; then
+    mv -f "$MODPATH/lib/x86/$1" "$MODPATH/lib"
+    rm -rf "$MODPATH/lib/x86"
+    rm -rf "$MODPATH/lib/armeabi-v7a"
+    rm -rf "$MODPATH/lib/arm64-v8a"
+    rm -rf "$MODPATH/lib/x86_64"
+  elif [[ "$ARCH" == "x64" ]]; then
+    mv -f "$MODPATH/lib/x86_64/$1" "$MODPATH/lib"
+    rm -rf "$MODPATH/lib/x86_64"
+    rm -rf "$MODPATH/lib/armeabi-v7a"
+    rm -rf "$MODPATH/lib/x86"
+    rm -rf "$MODPATH/lib/arm64-v8a"
+  fi
+}
+
 rm_exist "$TMPDIR"
 mkdir -p "$TMPDIR"
 
@@ -120,9 +148,7 @@ rm_exist "$MODPATH/setup.sh"
 rm_exist "$MODPATH/LICENSE"
 rm_exist "$MODPATH/README.md"
 rm_exist "$MODPATH/changelog.md"
-rm_exist "$MODPATH/aosp_enhancer.jpg"
-rm_exist "$MODPATH/system/bin/aosp_enhancer64"
-rm_exist "$MODPATH/system/bin/aosp_enhancer32"
+rm_exist "$MODPATH/aosp_enhancer.jpeg"
 
 ##############
 # Finalizing

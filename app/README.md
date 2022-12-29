@@ -14,9 +14,8 @@ Overall, AOSP Enhancer is an effective tool for optimizing the performance of an
 
 ## Notes
 
-- You can check `aosp_enhancer.txt` in Internal storage / Android. It will show you what type of tweaks AOSP Enhancer has applied.
-- No new features are going to be added in this magisk module variant. Only the main tweaks will be updated & nothing else. You can check out app variant to see the new features in it which will come soon if they are not available right now.
+- More new features are coming soon. Not only just kernel tweaks but customization related tweaks too. Stay tuned.
 
 # Download
 
-Go to [here](https://www.pling.com/p/1875251/) to download AOSP Enhancer magisk module.
+Go to [here](https://play.google.com/store/apps/details?id=com.looper.enhancer) to download AOSP Enhancer app.

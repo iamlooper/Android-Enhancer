@@ -40,7 +40,7 @@ REPLACE="
 # Set permissions
 set_permissions() {
   set_perm_recursive "$MODPATH" 0 0 0777 0755
-  set_perm_recursive "$MODPATH/system/bin" 0 0 0777 0755
+  set_perm_recursive "$MODPATH/lib" 0 0 0777 0755
 }
 
 ############
@@ -67,7 +67,8 @@ init_main() {
   ui_print ""
   ui_print "[*] Installing AOSP Enhancer..."
 
-  [[ "$IS64BIT" == "true" ]] && mv -f "$MODPATH/system/bin/aosp_enhancer64" "$MODPATH/system/bin/aosp_enhancer" || mv -f "$MODPATH/system/bin/aosp_enhancer32" "$MODPATH/system/bin/aosp_enhancer"
+  # Configure native library 
+  configure_native_lib "libenhancer.so"
 
   sleep 2
 

@@ -2,6 +2,8 @@
 # AOSP Enhancer
 # Author: LOOPER (iamlooper @ github)
 
+MODDIR="${0%/*}"
+
 wait_until_login() {
   # In case of /data encryption is disabled
   while [[ "$(getprop sys.boot_completed)" != "1" ]]; do
@@ -21,7 +23,7 @@ wait_until_login() {
 wait_until_login
 
 # Make sure init is completed
-sleep 37
+sleep 35
 
 # Apply enhancer
-aosp_enhancer
+"$MODDIR/lib/libenhancer.so" >"/sdcard/Android/aosp_enhancer.txt"
