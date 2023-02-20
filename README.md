@@ -26,3 +26,11 @@ System properties are also tweaked to ensure a more optimal user experience, whi
 [<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_02.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_02.png)
 [<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_03.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_03.png)
 [<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_04.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_04.png)
+
+## Donate
+
+If you liked any one of my projects then consider supporting me via following:
+- [Buy me a coffee](https://buymeacoffee.com/iamlooper)
+- [Donation app](https://play.google.com/store/apps/details?id=com.looper.donate)
+
+It really means alot to me. Thanks in advance! ❤️
