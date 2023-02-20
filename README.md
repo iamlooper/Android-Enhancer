@@ -19,3 +19,10 @@ Well, the underlying logic is all about types of tweaks shown on the app. Androi
 If we go on to MIUI-specific tweaks, then in this case, various unnecessary MIUI services inside `com.miui.daemon` & `com.xiaomi.joyose` are disabled. This relieves the device from resource consumption and boosts battery juice. It is not recommended by me to fully disable a system app as it can result in abnormal behaviour of the system. So, it is preferred to disable the services/processes inside a system app rather than fully disabling a system app. 
 
 System properties are also tweaked to ensure a more optimal user experience, which includes disabling of logging props and enabling of zygote preforking (creates an empty copy of zygote, which enables the app to launch faster as the time for creating zygote copy to run the app is completely eliminated by already creating it). The next thing that the app does is tweaking dalvik. This is done by using system commands to optimize dalvik, such as `cmd package compile`, which is used to compile dalvik data of a specific app with predefined profiles in the system. Tweaking dalvik generally improves app opening speed and responsiveness, but it can also slow down the installation speed of an app as the dalvik data of the app is been optimized at that time. Lastly, various logging processes are killed, such as `statsd` and `traced`.
+
+## Screenshots
+
+[<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_01.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_01.png)
+[<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_02.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_02.png)
+[<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_03.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_03.png)
+[<img src="https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_04.png" width=140>](https://github.com/iamlooper/Android-Enhancer/raw/main/screenshots/ss_04.png)
