@@ -1,0 +1,39 @@
+name: Magisk Module Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y          
+          sudo apt-get install -y build-essential
+          wget -qO './ndk/src/util_functions.hpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/util_functions.hpp'
+          wget -qO './ndk/src/vmtouch.cpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/vmtouch.cpp'
+          wget -qO './ndk/src/glob.h' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/glob.h'
+
+      - uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r25c
+
+      - name: Compile
+        run: |
+          ndk-build NDK_PROJECT_PATH='./ndk' APP_BUILD_SCRIPT='./ndk/Android.mk' NDK_APPLICATION_MK='./ndk/Application.mk'
+          
+      - name: Copy libs to magisk folder
+        run: |
+          cp -af './ndk/libs' './magisk'
+                 
+      - name: Upload build as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'Android Enhancer'
+          path: './magisk'
+

@@ -40,18 +40,18 @@ REPLACE="
 # Set permissions
 set_permissions() {
   set_perm_recursive "$MODPATH" 0 0 0777 0755
-  set_perm_recursive "$MODPATH/lib" 0 0 0777 0755
+  set_perm_recursive "$MODPATH/libs" 0 0 0777 0755
 }
 
 ############
 # Info Print
 ############
 
-# Set what you want to be displayed on header of installation process
+# Set what you want to be displayed on header of installation process.
 info_print() {
   ui_print ""
   ui_print "***********************************"
-  ui_print "        AOSP Enhancer"
+  ui_print "        Android Enhancer"
   ui_print "   By iamlooper @ telegram"
   ui_print "***********************************"
 
@@ -62,13 +62,13 @@ info_print() {
 # Main
 ############
 
-# Change the logic to whatever you want
+# Change the logic to whatever you want.
 init_main() {
   ui_print ""
-  ui_print "[*] Installing AOSP Enhancer..."
+  ui_print "[*] Installing Android Enhancer..."
 
-  # Configure native library 
-  configure_native_lib "libenhancer.so"
+  # Configure native libraries.
+  configure_native_libs
 
   sleep 2
 
@@ -80,13 +80,13 @@ init_main() {
 
   ui_print " --- Notes --- "
   ui_print ""
-  ui_print "[*] Reboot is required"
+  ui_print "[*] Reboot is required."
   ui_print ""
-  ui_print "[*] Report issues to @looptesting on Telegram"
+  ui_print "[*] Report issues to @looptesting on Telegram."
   ui_print ""
-  ui_print "[*] Join @loopprojects on Telegram to get more updates"
+  ui_print "[*] Join @loopprojects on Telegram to get more updates."
   ui_print ""
-  ui_print "[*] You can find me at iamlooper @ Telegram for direct support"
+  ui_print "[*] You can find me at iamlooper @ Telegram for direct support."
 
   sleep 2
 }
