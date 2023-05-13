@@ -12,11 +12,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get upgrade -y          
-          sudo apt-get install -y build-essential
-          wget -qO './ndk/src/util_functions.hpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/util_functions.hpp'
-          wget -qO './ndk/src/vmtouch.cpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/vmtouch.cpp'
+          wget -O './ndk/src/util_functions.hpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/util_functions.hpp'
+          wget -O './ndk/src/vmtouch.cpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/vmtouch.cpp'
 
       - uses: nttld/setup-ndk@v1
         with:
