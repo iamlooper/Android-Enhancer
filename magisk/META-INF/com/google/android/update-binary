@@ -129,10 +129,12 @@ init_main
 set_permissions
 
 # Handle replace folders.
-for TARGET in "$REPLACE"; do
-  ui_print "[*] Replace target: $TARGET"
-  mktouch "$MODPATH$TARGET/.replace"
-done
+[[ ! -z "$REPLACE" ]] && {
+  for TARGET in "$REPLACE"; do
+    ui_print "[*] Replace target: $TARGET"
+    mktouch "$MODPATH$TARGET/.replace"
+  done
+}
 
 # Update info for Magisk app.
 "$BOOTMODE" && {

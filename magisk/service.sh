@@ -15,7 +15,7 @@ wait_until_login() {
   true >"$test_file"
   while [[ ! -f "$test_file" ]]; do
     true >"$test_file"
-    sleep 1
+    sleep 3
   done
   rm -f "$test_file"
 }
@@ -23,11 +23,11 @@ wait_until_login() {
 wait_until_login
 
 # Make sure init is completed.
-sleep 35
+sleep 30
 
 # Configure `vmtouch` binary in /data/local/tmp.
 cp -f "$MODDIR/libs/vmtouch" '/data/local/tmp'
 chmod 0777 '/data/local/tmp/vmtouch'
 
 # Execute Android Enhancer.
-"$MODDIR/libs/android_enhancer" --apply-all-tweaks 1>'/storage/emulated/0/Android/android_enhancer.txt' 2>'/storage/emulated/0/Android/android_enhancer_error.txt'
+"$MODDIR/libs/android_enhancer" --apply-all-tweaks 1>'/storage/emulated/0/Android/android_enhancer.txt' 2>'/data/local/tmp/android_enhancer_error.txt' && cp -f '/data/local/tmp/android_enhancer_error.txt' '/storage/emulated/0/Android' &
