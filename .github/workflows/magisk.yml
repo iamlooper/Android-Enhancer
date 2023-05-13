@@ -17,7 +17,6 @@ jobs:
           sudo apt-get install -y build-essential
           wget -qO './ndk/src/util_functions.hpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/util_functions.hpp'
           wget -qO './ndk/src/vmtouch.cpp' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/vmtouch.cpp'
-          wget -qO './ndk/src/glob.h' 'https://raw.githubusercontent.com/iamlooper/cpp-utils/main/glob.h'
 
       - uses: nttld/setup-ndk@v1
         with:
