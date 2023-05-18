@@ -15,7 +15,7 @@ using namespace std;
 void kernel_tweak();
 void io_tweak();
 void priority_tweak();
-void system_settings_tweak();
+void cmd_services_tweak();
 void disable_unnecessary_services();
 void props_tweak();
 void dalvik_props_tweak();
@@ -53,48 +53,28 @@ void kernel_tweak() {
 }
 
 void io_tweak() {
-  // Open the /sys/block directory.
-  DIR* dir = opendir("/sys/block/");
-  if (dir == nullptr) {
-    // Print an error message if the directory cannot be opened.
-    xlog("error", "Failure opening directory: " + (string)strerror(errno));
-    return;
-  }
-
-  // Iterate over the entries in the directory.
-  struct dirent* entry;
-  while ((entry = readdir(dir)) != nullptr) {
-    // Skip non-directories.
-    if (entry->d_type != DT_DIR) continue;
-   
-    // Construct the path to the queue directory for this entry.
-    string queue = string("/sys/block/") + entry->d_name + "/queue/";
-
+  for (const string& queue : get_paths_from_wp("/sys/block/*/queue")) {
     // Read the list of available schedulers from the scheduler file.
-    ifstream file(queue + "scheduler");
+    ifstream file(queue + "/scheduler");
     string avail_scheds((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
-
     // Set the scheduler to the first one in the list that is available.
-    vector<string> schedulers = {"cfq", "noop", "deadline", "none"};
-    for (const string& sched : schedulers) {
+    vector<string> scheds = {"cfq", "noop", "deadline", "none"};
+    for (const string& sched : scheds) {
       if (avail_scheds.find(sched) != string::npos) {
-        write(queue + "scheduler", sched);
+        write(queue + "/scheduler", sched);
         break;
       }
     }
-
+    
     // Disable I/O statistics, random I/O addition, and I/O polling.
-    write(queue + "iostats", "0");
-    write(queue + "add_random", "0");
-    write(queue + "io_poll", "0");
+    write(queue + "/iostats", "0");
+    write(queue + "/add_random", "0");
+    write(queue + "/io_poll", "0");
     // Set the idle time for groups and slices to 1 and 0, respectively.
-    write(queue + "iosched/group_idle", "1");
-    write(queue + "iosched/slice_idle", "0");
+    write(queue + "/iosched/group_idle", "1");
+    write(queue + "/iosched/slice_idle", "0"); 
   }
-
-  // Close the directory.
-  closedir(dir);
-
+  
   // Print tweak completion message.   
   xlog("date", "Tweaked I/O parameters.");  
 }
@@ -191,30 +171,31 @@ void priority_tweak() {
   xlog("date", "Optimized priority of system processes.");  
 }
 
-// Tweak to disable debugging, statistics & unnecessary background apps.
-void system_settings_tweak() {
-  // List of shell commands to execute.
-  vector<string> cmds = {
+// Tweak to disable debugging, statistics & unnecessary background apps etc.
+void cmd_services_tweak() {
+  // List of service commands of `cmd` to execute.
+  vector<string> svc_cmds = {
     "settings put system anr_debugging_mechanism 0",
     "settings put global fstrim_mandatory_interval 3600",
-    "cmd looper_stats disable",
-    "cmd appops set com.android.backupconfirm RUN_IN_BACKGROUND ignore",
-    "cmd appops set com.google.android.setupwizard RUN_IN_BACKGROUND ignore",
-    "cmd appops set com.android.printservice.recommendation RUN_IN_BACKGROUND ignore",
-    "cmd appops set com.android.onetimeinitializer RUN_IN_BACKGROUND ignore",
-    "cmd appops set com.qualcomm.qti.perfdump RUN_IN_BACKGROUND ignore",
-    "cmd power set-fixed-performance-mode-enabled true",
-    "am idle-maintenance"
+    "looper_stats disable",
+    "appops set com.android.backupconfirm RUN_IN_BACKGROUND ignore",
+    "appops set com.google.android.setupwizard RUN_IN_BACKGROUND ignore",
+    "appops set com.android.printservice.recommendation RUN_IN_BACKGROUND ignore",
+    "appops set com.android.onetimeinitializer RUN_IN_BACKGROUND ignore",
+    "appops set com.qualcomm.qti.perfdump RUN_IN_BACKGROUND ignore",
+    "power set-fixed-performance-mode-enabled true",
+    "activity idle-maintenance",
+    "thermalservice override-status 1"
   };
   
-  // Iterate through the list of commands.
-  for (const string& cmd : cmds) {
+  // Iterate through the list of service commands.
+  for (const string& svc_cmd : svc_cmds) {
     // Use exec_shell() function to execute shell command.
-    exec_shell(cmd, false);  
+    exec_shell("cmd " + svc_cmd, false);  
   }  
 
-  // Print tweak completion message.   
-  xlog("date", "Tweaked settings provider tunables.");  
+  // Print tweak completion message.
+  xlog("date", "Tweaked `cmd` services.");
 }
 
 // Stop unnecessary services.
@@ -454,7 +435,7 @@ void disable_mem_preload_tweak() {
   }
 
   // Print tweak completion message.   
-  xlog("date", "Disabled memory preload tweak.");            
+  xlog("date", "Disabled memory preload tweak.");  
 }
 
 // Tweak to disable unnecessary MIUI apps.
@@ -533,7 +514,7 @@ void apply_all_tweaks() {
   kernel_tweak(); 
   io_tweak();  
   priority_tweak();     
-  system_settings_tweak();  
+  cmd_services_tweak();  
   disable_unnecessary_services();  
   props_tweak(); 
   dalvik_props_tweak();
@@ -558,7 +539,7 @@ void apply_main_tweaks() {
   kernel_tweak(); 
   io_tweak();
   priority_tweak();  
-  system_settings_tweak();   
+  cmd_services_tweak();   
   disable_unnecessary_services();  
   props_tweak();  
   
