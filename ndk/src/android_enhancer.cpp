@@ -8,7 +8,7 @@
 
 #include "util_functions.hpp"
 
-// Set standard namespace 
+// Set standard namespace.
 using namespace std;
 
 // Declare functions.
@@ -53,26 +53,35 @@ void kernel_tweak() {
 }
 
 void io_tweak() {
-  for (const string& queue : get_paths_from_wp("/sys/block/*/queue")) {
+  // Initialize vector for paths.
+  vector<string> paths;
+  // Catch an exception.
+  try {
+    paths = get_paths_from_wp("/sys/block/*");
+  } catch (const exception& e) {
+    xlog("error", "An exception occurred: " + (string)e.what());
+  }
+  // Iterate through the list of paths.
+  for (const string& path : paths) {
     // Read the list of available schedulers from the scheduler file.
-    ifstream file(queue + "/scheduler");
+    ifstream file(path + "/queue/scheduler");
     string avail_scheds((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
     // Set the scheduler to the first one in the list that is available.
     vector<string> scheds = {"cfq", "noop", "deadline", "none"};
     for (const string& sched : scheds) {
       if (avail_scheds.find(sched) != string::npos) {
-        write(queue + "/scheduler", sched);
+        write(path + "/queue/scheduler", sched);
         break;
       }
     }
     
     // Disable I/O statistics, random I/O addition, and I/O polling.
-    write(queue + "/iostats", "0");
-    write(queue + "/add_random", "0");
-    write(queue + "/io_poll", "0");
+    write(path + "/queue/iostats", "0");
+    write(path + "/queue/add_random", "0");
+    write(path + "/queue/io_poll", "0");
     // Set the idle time for groups and slices to 1 and 0, respectively.
-    write(queue + "/iosched/group_idle", "1");
-    write(queue + "/iosched/slice_idle", "0"); 
+    write(path + "/queue/iosched/group_idle", "1");
+    write(path + "/queue/iosched/slice_idle", "0"); 
   }
   
   // Print tweak completion message.   
@@ -98,7 +107,7 @@ void priority_tweak() {
   // Iterate through the list of tasks. 
   for (const string& task : tasks) {
     renice_process(task, -20);
-    set_cpu_affinity(task, 0, CPU_SETSIZE - 1);
+    change_process_cpu_affinity(task, 0, CPU_SETSIZE - 1);
   }
   
   // Kernel helper, service manager, allocator & storage daemon.
@@ -122,7 +131,7 @@ void priority_tweak() {
   // Iterate through the list of tasks.
   for (const string& task : tasks) {
     renice_process(task, 12);
-    set_cpu_affinity(task, 0, 0);  
+    change_process_cpu_affinity(task, 0, 0);  
   }  
   
   // SystemUI, Launcher and IME (Input method editor).
@@ -134,7 +143,7 @@ void priority_tweak() {
   };
   // Iterate through the list of tasks.
   for (const string& task : tasks) {
-    set_cpu_affinity(task, 0, CPU_SETSIZE - 1);
+    change_process_cpu_affinity(task, 0, CPU_SETSIZE - 1);
   }
   
   // Threads of system server.
@@ -148,7 +157,7 @@ void priority_tweak() {
   // Iterate through the list of threads.
   for (const string& thread : threads) {
     renice_process(thread, -20);
-    set_cpu_affinity(thread, 0, CPU_SETSIZE - 1);
+    change_process_cpu_affinity(thread, 0, CPU_SETSIZE - 1);
   } 
 
   // Less priority with CPU affinity limited to CPU0.
@@ -164,7 +173,7 @@ void priority_tweak() {
   // Iterate through the list of threads.
   for (const string& thread : threads) {
     renice_process(thread, 12);
-    set_cpu_affinity(thread, 0, 0);
+    change_process_cpu_affinity(thread, 0, 0);
   }
 
   // Print tweak completion message. 
@@ -322,7 +331,7 @@ void clean_junk() {
     "/cache/*.apk",
     "/data/anr/*",
     "/data/backup/pending/*.tmp",
-    "/data/cache/*.*",
+    "/data/cache/*",
     "/data/data/*.log",
     "/data/data/*.txt",
     "/data/log/*.log",
@@ -426,13 +435,8 @@ void enable_mem_preload_tweak() {
 }
 
 void disable_mem_preload_tweak() {
-  // List of `vmtouch` pids to be killed.
-  vector<string> pids = get_pid_list("vmtouch");
-
-  // Iterate through the list of `vmtouch` pids.
-  for (const string& pid : pids) {
-    kill_process(pid);
-  }
+  // Kill `vmtouch` processes.
+  kill_processes("vmtouch");
 
   // Print tweak completion message.   
   xlog("date", "Disabled memory preload tweak.");  
