@@ -53,14 +53,9 @@ void kernel_tweak() {
 }
 
 void io_tweak() {
-  // Initialize vector for paths.
+  // Initialize vector for paths and get paths from wildcard path using get_paths_from_wp() function.
   vector<string> paths;
-  // Catch an exception.
-  try {
-    paths = get_paths_from_wp("/sys/block/*");
-  } catch (const exception& e) {
-    xlog("error", "An exception occurred: " + (string)e.what());
-  }
+  paths = get_paths_from_wp("/sys/block/*");
   // Iterate through the list of paths.
   for (const string& path : paths) {
     // Read the list of available schedulers from the scheduler file.
@@ -95,13 +90,14 @@ void priority_tweak() {
 
   // Core android process. (zygote)
   // Important display & graphics related process. (surfaceflinger)
-  // Core services container. (system_server)
+  // Core services container processes. (system & system_server)
   // Composer thread i.e Hardware compose vsync & uevent. (composer)
   // Max renice with CPU affinity to all cores.
   tasks = {
-    "zygote", 
+    "zygote",
+    "system",
+    "system_server",      
     "surfaceflinger", 
-    "system_server", 
     "composer"
   };
   // Iterate through the list of tasks. 
@@ -138,8 +134,8 @@ void priority_tweak() {
   // Change CPU affinity to all cores.
   tasks = {
     "com.android.systemui", 
-    get_home_pkgname(), 
-    get_ime_pkgname()
+    get_home_pkg_name(), 
+    get_ime_pkg_name()
   };
   // Iterate through the list of tasks.
   for (const string& task : tasks) {
@@ -156,8 +152,8 @@ void priority_tweak() {
   };
   // Iterate through the list of threads.
   for (const string& thread : threads) {
-    renice_process(thread, -20);
-    change_process_cpu_affinity(thread, 0, CPU_SETSIZE - 1);
+    renice_thread("system_server", thread, -20);
+    change_thread_cpu_affinity("system_server", thread, 0, CPU_SETSIZE - 1);
   } 
 
   // Less priority with CPU affinity limited to CPU0.
@@ -172,8 +168,8 @@ void priority_tweak() {
   };
   // Iterate through the list of threads.
   for (const string& thread : threads) {
-    renice_process(thread, 12);
-    change_process_cpu_affinity(thread, 0, 0);
+    renice_thread("system_server", thread, 12);
+    change_thread_cpu_affinity("system_server", thread, 0, 0);
   }
 
   // Print tweak completion message. 
@@ -376,61 +372,84 @@ void clean_junk() {
 // Tweak to preload important system objects into memory.
 void enable_mem_preload_tweak() {
   vector<string> apex_objects = {
-    "/apex/com.android.runtime/bin/linker",
-    "/apex/com.android.runtime/bin/linker64",
-    "/apex/com.android.runtime/lib/bionic/libc.so",
-    "/apex/com.android.runtime/lib/bionic/libm.so",
-    "/apex/com.android.runtime/lib/bionic/libdl.so",
-    "/apex/com.android.runtime/lib64/bionic/libc.so",
-    "/apex/com.android.runtime/lib64/bionic/libm.so",
-    "/apex/com.android.runtime/lib64/bionic/libdl.so"
+    "linker",
+    "linker64",
+    "libm.so",
+    "libdl.so"
   };
   for (const string& apex_object : apex_objects) {
-    if (is_path_exists(apex_object)) {
-      preload_item("obj", apex_object);
-    }
-  }
-
-  vector<string> system_objects = {
-    "/bin/linker",
-    "/bin/linker64",
-    "/system/lib/libc++.so",
-    "/system/lib/libgui.so",
-    "/system/lib/libsurfaceflinger.so",
-    "/system/lib/libandroid.so",
-    "/system/lib/libinput.so",   
-    "/system/lib64/libc++.so",
-    "/system/lib64/libgui.so",
-    "/system/lib64/libsurfaceflinger.so",
-    "/system/lib64/libandroid.so",    
-    "/system/lib64/libinput.so"
-  };
-  for (const string& system_object : system_objects) {
-    if (is_path_exists(system_object)) {
-      preload_item("obj", system_object);
-    }    
-  }
-
-  vector<string> oat_objects = {
-    "/system/framework/arm/boot-framework.oat",
-    "/system/framework/arm64/boot-framework.oat"
-  };
-  for (const string& oat_object : oat_objects) {
-    if (is_path_exists(oat_object)) {
-      preload_item("obj", oat_object);
-    }    
+    if (is_path_exists("/apex/com.android.runtime/bin/" + apex_object)) {
+      preload_item("obj", "/apex/com.android.runtime/bin/" + apex_object);
+    } 
+    if (is_path_exists("/apex/com.android.runtime/lib/bionic/" + apex_object)) {
+      preload_item("obj", "/apex/com.android.runtime/lib/bionic/" + apex_object);
+    } 
+    if (is_path_exists("/apex/com.android.runtime/lib64/bionic/" + apex_object)) {
+      preload_item("obj", "/apex/com.android.runtime/lib64/bionic/" + apex_object);
+    }         
   }
   
-  vector<string> apks = {
-    "com.android.systemui",
-    get_home_pkgname(),
-    get_ime_pkgname()
-  }; 
-  for (const string& apk : apks) {
-    preload_item("dex", apk);
+  vector<string> bin_objects = {
+    "dalvikvm",
+    "app_process"
+  };
+  for (const string& bin_object : bin_objects) {
+    if (is_path_exists("/bin/" + bin_object)) {
+      preload_item("obj", "/bin/" + bin_object);
+    }    
+  }  
+
+  vector<string> lib_objects = {     
+    "libandroid.so",        
+    "libandroid_runtime.so",
+    "libandroid_servers.so",    
+    "libEGL.so", 
+    "libGLESv1_CM.so",      
+    "libGLESv2.so", 
+    "libGLESv3.so",       
+    "libsurfaceflinger.so",    
+    "libhwui.so",
+    "libui.so",
+    "libskia.so",     
+    "libvulkan.so", 
+    "libRScpp.so",
+    "libinputflinger.so",  
+    "libharfbuzz_ng.so",  
+    "libprotobuf-cpp-full.so", 
+    "libprotobuf-cpp-lite.so", 
+    "libblas.so",
+    "libutils.so"    
+  };
+  for (const string& lib_object : lib_objects) {
+    if (is_path_exists("/system/lib/" + lib_object)) {
+      preload_item("obj", "/system/lib/" + lib_object);
+    } 
+    if (is_path_exists("/system/lib64/" + lib_object)) {
+      preload_item("obj", "/system/lib64/" + lib_object);    
+    } 
   }
 
-  // Print tweak completion message.   
+  vector<string> framework_objects = {
+    "framework.jar",
+    "services.jar",
+    "protobuf.jar"
+  };
+  for (const string& framework_object : framework_objects) {
+    if (is_path_exists("/system/framework/" + framework_object)) {
+      preload_item("obj", "/system/framework/" + framework_object);
+    }    
+  }  
+
+  vector<string> pkg_names = {
+    "com.android.systemui",
+    get_home_pkg_name(),
+    get_ime_pkg_name()
+  };   
+  for (const string& pkg_name : pkg_names) {
+    preload_item("app", pkg_name);
+  }
+
+  // Print tweak completion message.  
   xlog("date", "Preloaded important system items into RAM.");  
 }
 
