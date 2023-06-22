@@ -176,13 +176,13 @@ void priority_tweak() {
   xlog("date", "Optimized priority of system processes.");  
 }
 
-// Tweak to disable debugging, statistics & unnecessary background apps etc.
+// Tweak to disable debugging, statistics, unnecessary background apps, phantom process killer, lock profiling (analysis tool), make changes to `DeviceConfig` flags persistent, enable IORAP readahead feature, improve FSTrim time interval and tweak `ActivityManager`.
 void cmd_services_tweak() {
   // List of service commands of `cmd` to execute.
   vector<string> svc_cmds = {
     "settings put system anr_debugging_mechanism 0",
-    "settings put global fstrim_mandatory_interval 3600",
     "looper_stats disable",
+    "settings put global netstats_enabled 0",  
     "appops set com.android.backupconfirm RUN_IN_BACKGROUND ignore",
     "appops set com.google.android.setupwizard RUN_IN_BACKGROUND ignore",
     "appops set com.android.printservice.recommendation RUN_IN_BACKGROUND ignore",
@@ -190,7 +190,15 @@ void cmd_services_tweak() {
     "appops set com.qualcomm.qti.perfdump RUN_IN_BACKGROUND ignore",
     "power set-fixed-performance-mode-enabled true",
     "activity idle-maintenance",
-    "thermalservice override-status 1"
+    "thermalservice override-status 1",
+    "settings put global settings_enable_monitor_phantom_procs false",
+    "device_config put runtime_native_boot disable_lock_profiling true",
+    "device_config set_sync_disabled_for_tests persistent",
+    "device_config put runtime_native_boot iorap_readahead_enable true",
+    "settings put global fstrim_mandatory_interval 3600",
+    "device_config put activity_manager max_phantom_processes 2147483647",
+    "device_config put activity_manager max_cached_processes 256",
+    "device_config put activity_manager max_empty_time_millis 43200000"
   };
   
   // Iterate through the list of service commands.
@@ -207,8 +215,8 @@ void cmd_services_tweak() {
 void disable_unnecessary_services() {
   // List of processes to be killed.
   vector<string> processes = {
+    "traced",   
     "statsd", 
-    "traced", 
     "tcpdump", 
     "cnss_diag",     
     "ipacm-diag", 
@@ -545,8 +553,9 @@ void apply_all_tweaks() {
   secondary_dex_tweak();  
   clean_junk();    
   enable_mem_preload_tweak();
-  
-  if (exec_shell("pm list packages | grep com.xiaomi.misettings &>/dev/null && echo true || echo false", true) == "true") {
+
+  // Apply the following tweaks if MIUI is installed.
+  if (is_app_exists("com.xiaomi.misettings")) {
     disable_miui_apps(); 
     miui_props_tweak();
     disable_unnecessary_miui_services();
