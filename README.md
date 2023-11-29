@@ -3,7 +3,7 @@ A revolutionary android optimizer.
 
 ## Variants 🧩
 - [App](https://github.com/iamlooper/Android-Enhancer/tree/app)
-- [Module](https://github.com/iamlooper/Android-Enhancer-test/tree/module)
+- [Module](https://github.com/iamlooper/Android-Enhancer/tree/module)
 
 ## Download 📲
 You can download Android Enhancer from the following:
