@@ -1,0 +1,70 @@
+#!/sbin/sh
+
+#################
+# Functions
+#################
+
+ui_print() { echo "$1"; }
+
+grep_prop() {
+  local REGEX="s/^$1=//p"
+  shift
+  local FILES="$@"
+  [[ -z "$FILES" ]] && FILES=/system/build.prop
+  cat "$FILES" 2>/dev/null | dos2unix | sed -n "$REGEX" | head -n 1
+}
+
+abort() {
+  ui_print "$1"
+  [[ ! -z "$MODPATH" ]] && rm -rf "$MODPATH"
+  rm -rf "$TMPDIR"
+  exit 1
+}
+
+#################
+# Initialization
+#################
+
+umask 0022
+
+# Enable debugging by default.
+set -x
+
+# Global vars.
+TMPDIR=/dev/tmp
+NVBASE=/data/adb
+MODDIRNAME=modules_update
+MODULEROOT="$NVBASE/$MODDIRNAME"
+"$KSU" || ZIPFILE="$3"
+
+# Setup tmp dir.
+mkdir -p "$TMPDIR"
+cd "$TMPDIR"
+
+# Extract necessary stuff.
+unzip -o "$ZIPFILE" module.prop module_functions.sh -d "$TMPDIR" >&2
+
+# Extract module info.
+[[ ! -f "$TMPDIR/module.prop" ]] && abort "[Error] Unable to extract zip file!"
+MODID="$(grep_prop id $TMPDIR/module.prop)"
+MODPATH="$MODULEROOT/$MODID"
+
+# Setup mod path.
+rm -rf "$MODPATH"
+mkdir -p "$MODPATH"
+
+#################
+# Load utils
+#################
+
+# Mount data partition.
+"$KSU" || mount /data 2>/dev/null
+
+# Load functions.
+source "$TMPDIR/module_functions.sh"
+
+# Install module.
+install_module
+
+# Exit successfully.
+exit 0
