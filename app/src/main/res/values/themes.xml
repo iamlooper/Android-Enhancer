@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Main theme. -->
+    <style name="Theme.App" parent="Theme.Base">
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_looper</item>
+    </style>
+</resources>

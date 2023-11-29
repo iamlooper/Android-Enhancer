@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tweaks_items">
+        <item>Main tweak</item>
+        <item>Dalvik tweak</item>
+        <item>Clean junk</item>        
+        <item>Memory tweak</item>
+    </string-array>
+
+    <string-array name="tweaks_items_values">
+        <item>main_tweak</item>
+        <item>dalvik_tweak</item>
+        <item>clean_junk</item>        
+        <item>memory_tweak</item>
+    </string-array>
+
+    <string-array name="tweaks_items_default_values" />
+</resources>

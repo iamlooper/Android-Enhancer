@@ -1,0 +1,28 @@
+[versions]
+gradle = "8.3.0-alpha09"
+kotlin = "1.9.0"
+appcompat = "1.6.0"
+core = "1.10.0"
+constraintlayout = "2.1.0"
+navigation = "2.7.0"
+preference = "1.2.0"
+activity = "1.7.0"
+fragment = "1.6.0"
+material = "1.9.0"
+libsu = "5.2.1"
+android-support = "android-support-1.0.0-1"
+
+[libraries]
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+androidx-preference = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+topjohnwu-libsu-core = { group = "com.github.topjohnwu.libsu", name = "core", version.ref = "libsu" }
+looper-utils-android-support = { group = "com.github.iamlooper", name = "utils", version.ref = "android-support" }

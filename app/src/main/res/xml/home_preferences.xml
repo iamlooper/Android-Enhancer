@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/category_tweaks">
+
+        <Preference
+            android:title="@string/pref_execute_all_tweaks_title"
+            android:summary="@string/pref_execute_all_tweaks_summary"
+            android:icon="@drawable/ic_rocket_launch"
+            android:key="pref_execute_all_tweaks" />
+        <Preference
+            android:title="@string/pref_main_tweak_title"
+            android:summary="@string/pref_main_tweak_summary"
+            android:icon="@drawable/ic_electric_bolt"
+            android:key="pref_main_tweak" />
+        <Preference
+            android:title="@string/pref_dalvik_tweak_title"
+            android:summary="@string/pref_dalvik_tweak_summary"
+            android:icon="@drawable/ic_apk_document"
+            android:key="pref_dalvik_tweak" />
+        <Preference
+            android:title="@string/pref_clean_junk_title"
+            android:summary="@string/pref_clean_junk_summary"
+            android:icon="@drawable/ic_mop"
+            android:key="pref_clean_junk" />
+        <SwitchPreferenceCompat
+            android:title="@string/switch_pref_memory_tweak_title"
+            android:summaryOn="@string/switch_pref_memory_tweak_summary_on"
+            android:summaryOff="@string/switch_pref_memory_tweak_summary_off"
+            android:icon="@drawable/ic_memory"
+            android:key="switch_pref_memory_tweak"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/category_settings">
+
+        <MultiSelectListPreference
+            android:title="@string/list_pref_execute_tweaks_on_boot_title"
+            android:summary="@string/list_pref_execute_tweaks_on_boot_summary"
+            android:entries="@array/tweaks_items"
+            android:entryValues="@array/tweaks_items_values"
+            android:icon="@drawable/ic_restart_alt"
+            android:key="list_pref_execute_tweaks_on_boot"
+            app:defaultValue="@array/tweaks_items_default_values" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

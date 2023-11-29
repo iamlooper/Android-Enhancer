@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <com.looper.android.support.preference.AppInfoPreference />
+    
+    <PreferenceCategory>
+
+        <Preference
+            android:title="@string/pref_buy_me_a_coffee_title"
+            android:summary="@string/pref_buy_me_a_coffee_summary"
+            android:icon="@drawable/ic_coffee">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://buymeacoffee.com/iamlooper/membership" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/pref_more_apps_on_play_store_title"
+            android:summary="@string/pref_more_apps_on_play_store_summary"
+            android:icon="@drawable/ic_shop">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://play.google.com/store/apps/dev?id=6115418187591502860" />
+        </Preference>        
+        
+        <Preference
+            android:title="@string/pref_release_channel_title"
+            android:summary="@string/pref_release_channel_summary"
+            android:icon="@drawable/ic_new_releases">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://telegram.me/loopprojects" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/pref_credits_title"
+            android:summary="@string/pref_credits_summary"
+            android:icon="@drawable/ic_groups">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/iamlooper/Android-Enhancer/tree/main#credits-" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/pref_licenses_title"
+            android:summary="@string/pref_licenses_summary"
+            android:icon="@drawable/ic_license">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/iamlooper/Android-Enhancer/tree/app#licenses-" />
+        </Preference>
+        
+        <Preference
+            android:title="@string/pref_github_title"
+            android:summary="@string/pref_github_summary"
+            android:icon="@drawable/ic_github">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/iamlooper/Android-Enhancer" />
+        </Preference>                              
+    </PreferenceCategory>           
+</androidx.preference.PreferenceScreen>
