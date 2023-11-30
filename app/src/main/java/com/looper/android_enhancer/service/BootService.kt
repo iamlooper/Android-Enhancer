@@ -5,12 +5,13 @@ import java.io.File
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.app.Notification
+import android.content.pm.ServiceInfo
 
 import androidx.preference.PreferenceManager
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.SwitchPreferenceCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 
 import com.topjohnwu.superuser.Shell
 
@@ -42,7 +43,7 @@ class BootService : Service() {
             .build()
 
         // Start the foreground service.
-        startForeground(1, foregroundNotification)    
+        ServiceCompat.startForeground(this, 1, foregroundNotification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE)
     
         // Check if the app has root access.
         if (Shell.isAppGrantedRoot() == true) {
@@ -100,7 +101,7 @@ class BootService : Service() {
         }
 
         // Stop the foreground service.
-        stopForeground(true)
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
 
         // Stop the service completely.
         stopSelf()

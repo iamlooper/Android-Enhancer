@@ -38,7 +38,8 @@
 
         <service            
             android:name=".service.BootService"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:foregroundServiceType="shortService" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
