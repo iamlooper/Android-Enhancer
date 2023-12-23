@@ -11,7 +11,7 @@ You can download Android Enhancer from the following:
 - [Buy Me a Coffee](https://buymeacoffee.com/iamlooper/posts) (Early access)
 
 ## Description 📝
-Android Enhancer is a specialized tool that helps to optimize the performance of android devices by modifying certain core parameters. Unlike other optimizers, Android Enhancer uses a simple and universal approach that allows it to work on a wide range of android devices. This means that it can be used to improve the performance of a wide variety of devices, including smartphones, tablets, and other android-powered devices.
+Android Enhancer is a specialized tool designed to optimize the performance of Android devices by modifying specific core parameters. Unlike other optimizers, Android Enhancer employs a universal approach, enabling it to function effectively across a wide range of Android devices. Consequently, it can enhance the performance of various devices, encompassing smartphones, tablets, and other Android-powered devices.
 
 ## Working ⚙️
 To understand the functioning of the Android Enhancer, please examine the source code located [here](https://github.com/iamlooper/Android-Enhancer/blob/main/src/android_enhancer.cpp). The code currently lacks extensive documentation, but rest assured, I am actively working on improving it.
