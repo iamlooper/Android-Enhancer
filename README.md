@@ -1,4 +1,4 @@
-# Android Enhancer App
+# Android Enhancer App 🚀
 
 The app version of Android Enhancer.
 
