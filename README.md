@@ -59,3 +59,5 @@ min=0, max=102169`
 - [Chirag](https://t.me/selfmuser) - Tester
 - [Leaf](https://t.me/leafinferno) - Designer
 - [Jis G Jacob](https://t.me/StudioKeys) - Tester
+- [KTweak](https://github.com/tytydraco/KTweak) - BSD 2-Clause License
+- [Uperf](https://github.com/yc9559/uperf) - Apache-2.0 License
