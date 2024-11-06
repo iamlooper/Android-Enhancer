@@ -12,21 +12,17 @@ jobs:
     steps:
       - name: Checkout    
         uses: actions/checkout@v4
-        
-      - name: Install dependencies
-        run: |
-          git clone -b cpp-utils https://github.com/iamlooper/utils.git src/utils
 
       - uses: nttld/setup-ndk@v1
         with:
-          ndk-version: r26b
+          ndk-version: r27c
 
       - name: Compile
         run: |
           ndk-build NDK_PROJECT_PATH="." APP_BUILD_SCRIPT="Android.mk" NDK_APPLICATION_MK="Application.mk"
                            
       - name: Upload libs as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libs
           path: libs

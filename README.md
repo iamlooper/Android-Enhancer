@@ -1,22 +1,24 @@
+![Banner](https://github.com/iamlooper/Android-Enhancer/raw/main/banner.jpg)
+
 # Android Enhancer (formerly AOSP Enhancer) 🚀
+
 A revolutionary android optimizer. 
 
-## Variants 🧩
-- [App](https://github.com/iamlooper/Android-Enhancer/tree/app)
-- [Module](https://github.com/iamlooper/Android-Enhancer/tree/module)
+## Versions 🧩
+
+- [App](https://github.com/iamlooper/Android-Enhancer-App)
+- [Module](https://github.com/iamlooper/Android-Enhancer-Module)
 
 ## Download 📲
-You can download Android Enhancer from the following:
-- [Pling](https://www.pling.com/p/1875251)
-- [Buy Me a Coffee](https://buymeacoffee.com/iamlooper/posts) (Early access)
 
-## Description 📝
-Android Enhancer is a specialized tool designed to optimize the performance of Android devices by modifying specific core parameters. Unlike other optimizers, Android Enhancer employs a universal approach, enabling it to function effectively across a wide range of Android devices. Consequently, it can enhance the performance of various devices, encompassing smartphones, tablets, and other Android-powered devices.
+[Click here](https://www.pling.com/p/1875251/) to download the latest version of Android Enhancer. Install the app version if you want control over which tweaks to apply. Use the module version if you want a 'flash and forget' experience. Do not use the app and module versions at the same time.
 
 ## Working ⚙️
-To understand the functioning of the Android Enhancer, please examine the source code located [here](https://github.com/iamlooper/Android-Enhancer/blob/main/src/android_enhancer.cpp). The code currently lacks extensive documentation, but rest assured, I am actively working on improving it.
+
+To understand the functioning of the Android Enhancer, please examine the source code from the entrypoint located [here](https://github.com/iamlooper/Android-Enhancer/blob/main/src/android_enhancer.cpp).
 
 ## Benchmarks ⚡
+
 The given benchmarks were conducted on a Poco M3 running the GreenForce kernel on Pixel Experience Android 13.
 
 ### Scheduler latency via `hackbench` (Lower values indicate better performance)
@@ -53,14 +55,7 @@ min=0, max=102169`
 - With Android Enhancer: 27.495 seconds
 
 ## Credits 👥
-Due to the combined efforts and expertise of the following people, this project has achieved its success:
-- [Chirag](https://t.me/selfmuser)
-- [Leaf](https://t.me/leafinferno)
-- [Jis G Jacob](https://t.me/StudioKeys)
 
-Message me if I missed anyone. 😉
-
-## Support Me 💙
-If you liked any one of my projects then consider supporting me via following:
-- [Buy Me a Coffee](https://buymeacoffee.com/iamlooper/membership)
-- [Telegram Channel](https://loopprojects.t.me)
+- [Chirag](https://t.me/selfmuser) - Tester
+- [Leaf](https://t.me/leafinferno) - Designer
+- [Jis G Jacob](https://t.me/StudioKeys) - Tester
