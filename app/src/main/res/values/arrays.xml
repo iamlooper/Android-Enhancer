@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_tweaks_on_boot_entries">
+        <item>Main tweak</item>
+        <item>Priority tweak</item>
+        <item>ART tweak</item>
+        <item>Focused app optimizer</item>
+    </string-array>
+
+    <string-array name="pref_tweaks_on_boot_entry_values">
+        <item>main_tweak</item>
+        <item>priority_tweak</item>
+        <item>art_tweak</item>
+        <item>focused_app_optimizer</item>
+    </string-array>
+
+    <string-array name="pref_tweaks_on_boot_default_value" />
+</resources>
