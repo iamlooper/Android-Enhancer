@@ -4,7 +4,6 @@ import com.google.android.material.color.DynamicColors
 import com.jaredrummler.ktsh.Shell
 import com.looper.android.support.App
 import com.looper.android.support.util.NotificationUtil
-import com.looper.android_enhancer.worker.PacketSdkWorker
 
 class MyApp : App() {
 
@@ -24,7 +23,5 @@ class MyApp : App() {
             "boot_notification",
             getString(R.string.boot_notification)
         )
-
-        PacketSdkWorker.startWorker(this)
     }
 }

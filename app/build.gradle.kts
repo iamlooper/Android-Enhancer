@@ -78,5 +78,4 @@ dependencies {
     implementation(libs.looper.android.support)
     implementation(libs.jaredrummler.ktsh)
     implementation(libs.oss.licenses)
-    implementation(files("libs/packet_sdk.jar"))
 }
